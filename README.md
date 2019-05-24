@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Scripts Run:
 
-Things you may want to cover:
+# Create new rails project
+rails new todos-api --api -T
 
-* Ruby version
+# Generate spec folder
+rails generate
 
-* System dependencies
+# Generate User Model
+rails g model User name:string
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
