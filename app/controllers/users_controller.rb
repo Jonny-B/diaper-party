@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def show
-    User.all.to_ary
+    render json: User.select('name').map{|x| x.name}
   end
 
   def create
