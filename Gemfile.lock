@@ -91,6 +91,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     puma (3.12.0)
     rack (2.0.5)
+    rack-cors (1.0.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.3)
@@ -165,6 +166,7 @@ DEPENDENCIES
   factory_bot_rails (~> 4.0)
   faker
   puma (~> 3.11)
+  rack-cors
   rails (~> 5.2.3)
   rspec-rails (~> 3.5)
   shoulda-matchers (~> 3.1)
