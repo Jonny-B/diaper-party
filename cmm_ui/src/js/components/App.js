@@ -75,6 +75,7 @@ const LogIn = (props) => {
         return (<></>)
     }
     else {
+        // TODO already a user message should go away if loggin in. change button name accordingly
         return (
             <div className={props.classes.logIn}>
                 <Paper className={props.classes.paper}>

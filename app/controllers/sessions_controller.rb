@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   # TODO Create LOGOUT
+  # TODO Create Sign Up
   # def currentUser
   #
   # end
