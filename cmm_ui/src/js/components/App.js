@@ -3,9 +3,13 @@ import {withStyles} from '@material-ui/core/styles'
 import {Typography, TextField, Button, Link, Paper} from '@material-ui/core'
 // import {BrowserRouter as Router, Link, Switch, Route, Redirect} from 'react-router-dom'
 import logo from '../../images/logo.svg';
+import LogIn from './LogIn'
+import GetUsers from './GetUsers'
 import '../../css/App.css';
 import axios from 'axios';
 
+// TODO add expiring cookie
+// https://stackoverflow.com/questions/39826992/how-can-i-set-a-cookie-in-react
 export class App extends Component {
     constructor(props) {
         super(props);
@@ -14,8 +18,10 @@ export class App extends Component {
             users: ['Click Logo To See Users'],
             logInEmail: '',
             logInPassword: '',
+            signUpUserName: '',
+            currentUserName: '',
             authtoken: null,
-            signUp: true
+            isSignUp: true
         };
 
         this.getUsers = this.getUsers.bind(this);
@@ -38,106 +44,67 @@ export class App extends Component {
     };
 
     handleClick = event => {
+
         let email = this.state.logInEmail;
         let password = this.state.logInPassword;
-        axios.post(`http://cmm-api:3000/sessions/login?email=${email}&password=${password}`).then(res => {
-            this.setState({authtoken: res.data.authentication_token})
-        }).catch(err => {
-            console.log('There was an unknown error loggin in')
-        })
+        let name = this.state.signUpUserName;
+
+        if (event.target.innerText === 'SIGN UP') {
+            let email = this.state.logInEmail.trim();
+            let password = this.state.logInPassword.trim();
+            let name = this.state.signUpUserName.trim();
+
+            if (email !== '' || password !== '' || name !== '') {
+                axios.post(`http://cmm-api:3000/createUser?user=${name}&email=${email}&password=${password}`).then((res) => {
+                    window.alert("Congrats You Have Created a New Account!");
+                    this.setState({isSignUp: false});
+                })
+            }
+            else {
+                window.alert("Please Ensure you have filled out all fields");
+            }
+        }
+        else if (event.target.innerText === 'LOG IN') {
+            axios.post(`http://cmm-api:3000/sessions/login?email=${email}&password=${password}`).then(res => {
+                if (res.data !== 'unauthorized') {
+                    this.setState({authtoken: res.data.authentication_token, currentUserName: res.data.name})
+                }
+                else {
+                    window.alert("Incorrect User Name and Password Combination");
+                }
+            }).catch(err => {
+                window.alert("Incorrect User Name and Password Combination");
+            })
+        }
+        else {
+            axios.delete(`http://cmm-api:3000/sessions/logout?authtoken=${this.state.authtoken}`).then(res => {
+                window.alert("Successfully Logged Out");
+                this.setState({authtoken: null, currentUserName: ''})
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     };
 
     switchLogInSignUp() {
-        this.setState({signUp: !this.state.signUp})
+        this.setState({isSignUp: !this.state.isSignUp})
     }
 
     render() {
-        // if (this.state.authtoken === null || this.state.authtoken === undefined) {
-        //
-        // }
         return (
             <div className="App" id={"app"}>
                 <LogIn classes={this.props.classes} logInEmail={this.state.logInEmail}
-                       logInPassword={this.state.logInPassword} signUp={this.state.signUp}
+                       logInPassword={this.state.logInPassword} signUpUserName={this.state.signUpUserName}
+                       isSignUp={this.state.isSignUp}
                        authtoken={this.state.authtoken} handleClick={this.handleClick}
                        switchLogInSignUp={this.switchLogInSignUp} handleChange={this.handleChange}/>
-                <GetUsers users={this.state.users} classes={this.props.classes} getUsers={this.getUsers}
-                          authtoken={this.state.authtoken}/>
+                <GetUsers users={this.state.users} getUsers={this.getUsers} handleClick={this.handleClick}
+                          authtoken={this.state.authtoken} currentUserName={this.state.currentUserName}/>
             </div>
         );
     }
 
 }
-
-const LogIn = (props) => {
-    // TODO add error state when wrong pass is entered
-    if (props.authtoken !== null && props.authtoken !== undefined) {
-        return (<></>)
-    }
-    else {
-        // TODO already a user message should go away if loggin in. change button name accordingly
-        return (
-            <div className={props.classes.logIn}>
-                <Paper className={props.classes.paper}>
-                    <div>
-                        <TextField
-                            id={"logInEmail"}
-                            label={"Email"}
-                            className={props.classes.logInEmail}
-                            value={props.logInEmail === undefined ? '' : props.logInEmail}
-                            onChange={props.handleChange}
-                        >
-                        </TextField>
-
-                        <TextField
-                            id={"logInPassword"}
-                            label={"Password"}
-                            className={props.classes.logInPassword}
-                            value={props.logInPassword === undefined ? '' : props.logInPassword}
-                            onChange={props.handleChange}
-                        >
-                        </TextField>
-                    </div>
-                    <div>
-                        <SignInLogInButton signUp={props.signUp} handleClick={props.handleClick}
-                                           classes={props.classes}/>
-                    </div>
-                    <Typography>Already Have An Account?</Typography>
-                    <Link onClick={props.switchLogInSignUp}>Log In</Link>
-                </Paper>
-            </div>
-        )
-    }
-
-};
-
-const GetUsers = (props) => {
-    if (props.authtoken === null || props.authtoken === undefined) {
-        return <></>
-    }
-    else {
-        return (
-            <div className="GetUsers" id={"getUsers"}>
-                <header className="App-header" id={"appHeader"}>
-                    {props.users.map((user, i) => {
-                        return <Typography key={`user${i}`}>{user}</Typography>
-                    })}
-                    <div className={props.classes.logoDiv} id={"logoDiv"} onClick={props.getUsers}>
-                        <img src={logo} id={"logoImage"} className="App-logo" alt="logo"/>
-                    </div>
-                </header>
-            </div>
-        )
-    }
-};
-
-const SignInLogInButton = (props) => {
-    if (props.signUp)
-        return <Button className={props.classes.button} onClick={props.handleClick} variant="contained">Sign
-            Up</Button>;
-    else
-        return <Button className={props.classes.button} onClick={props.handleClick} variant="contained">Log In</Button>;
-};
 
 const styles = {
     logoDiv: {

@@ -1,9 +1,5 @@
 class SessionsController < ApplicationController
   # TODO Create LOGOUT
-  # TODO Create Sign Up
-  # def currentUser
-  #
-  # end
 
   def create
     user = User.where(email: params[:email]).first
@@ -15,6 +11,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-
+    user = User.where(authentication_token: params['authtoken']).first
+    #this will simply change the token causing the old one to be invalid
+    user.save
   end
 end
