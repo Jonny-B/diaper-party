@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  # TODO TESTS!!!
   def show
     user = User.where(authentication_token: params['authtoken']).first
 

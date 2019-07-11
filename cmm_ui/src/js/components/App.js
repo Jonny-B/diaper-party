@@ -6,7 +6,6 @@ import '../../css/App.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie'
 
-// TODO add expiring cookie
 export class App extends Component {
     constructor(props) {
         super(props);

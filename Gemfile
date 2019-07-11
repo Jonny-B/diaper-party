@@ -33,11 +33,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'devise'
   gem 'simple_token_authentication'
-end
-
-group :development do
   # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
   gem 'rack-cors'
+  gem 'rails-controller-testing'
 end
 
 group :test do

@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  # TODO Create LOGOUT
-
   def create
     user = User.where(email: params[:email]).first
     if !user.nil? && user.valid_password?(params[:password])
