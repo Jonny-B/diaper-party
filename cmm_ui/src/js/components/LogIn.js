@@ -1,11 +1,10 @@
 import {Button, Link, Paper, TextField, Typography} from "@material-ui/core";
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import {App} from "./App";
 
 const LogIn = (props) => {
     // TODO add error state when wrong pass is entered
-    if (props.authtoken !== null && props.authtoken !== undefined) {
+    if (props.cookies.get('authtoken') !== null && props.cookies.get('authtoken') !== undefined) {
         return (<></>)
     }
     else {

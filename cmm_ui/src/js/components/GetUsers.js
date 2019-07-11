@@ -4,7 +4,7 @@ import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 
 const GetUsers = (props) => {
-    if (props.authtoken === null || props.authtoken === undefined) {
+    if (props.cookies.get('authtoken') === null || props.cookies.get('authtoken') === undefined) {
         return <></>
     }
     else {

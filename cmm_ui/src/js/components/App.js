@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles'
-import {Typography, TextField, Button, Link, Paper} from '@material-ui/core'
-// import {BrowserRouter as Router, Link, Switch, Route, Redirect} from 'react-router-dom'
-import logo from '../../images/logo.svg';
 import LogIn from './LogIn'
 import GetUsers from './GetUsers'
 import '../../css/App.css';
 import axios from 'axios';
+import Cookies from 'universal-cookie'
 
 // TODO add expiring cookie
-// https://stackoverflow.com/questions/39826992/how-can-i-set-a-cookie-in-react
 export class App extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +17,6 @@ export class App extends Component {
             logInPassword: '',
             signUpUserName: '',
             currentUserName: '',
-            authtoken: null,
             isSignUp: true
         };
 
@@ -31,9 +27,9 @@ export class App extends Component {
     }
 
     getUsers() {
-        axios.get(`http://cmm-api:3000/users?authtoken=${this.state.authtoken}`).then(res => {
+        axios.get(`http://cmm-api:3000/users?authtoken=${cookies.get('authtoken')}`).then(res => {
             if (res.data === "unauthorized")
-                this.setState({authtoken: null});
+                cookies.remove('authtoken');
             else
                 this.setState({users: res.data})
         })
@@ -45,15 +41,11 @@ export class App extends Component {
 
     handleClick = event => {
 
-        let email = this.state.logInEmail;
-        let password = this.state.logInPassword;
-        let name = this.state.signUpUserName;
+        let email = this.state.logInEmail.trim();
+        let password = this.state.logInPassword.trim();
+        let name = this.state.signUpUserName.trim();
 
         if (event.target.innerText === 'SIGN UP') {
-            let email = this.state.logInEmail.trim();
-            let password = this.state.logInPassword.trim();
-            let name = this.state.signUpUserName.trim();
-
             if (email !== '' || password !== '' || name !== '') {
                 axios.post(`http://cmm-api:3000/createUser?user=${name}&email=${email}&password=${password}`).then((res) => {
                     window.alert("Congrats You Have Created a New Account!");
@@ -67,7 +59,11 @@ export class App extends Component {
         else if (event.target.innerText === 'LOG IN') {
             axios.post(`http://cmm-api:3000/sessions/login?email=${email}&password=${password}`).then(res => {
                 if (res.data !== 'unauthorized') {
-                    this.setState({authtoken: res.data.authentication_token, currentUserName: res.data.name})
+                    cookies.set('authtoken', res.data.authentication_token, {
+                        path: '/',
+                        expires: new Date(Date.now() + 900000)
+                    });
+                    this.setState({currentUserName: res.data.name})
                 }
                 else {
                     window.alert("Incorrect User Name and Password Combination");
@@ -77,9 +73,10 @@ export class App extends Component {
             })
         }
         else {
-            axios.delete(`http://cmm-api:3000/sessions/logout?authtoken=${this.state.authtoken}`).then(res => {
+            axios.delete(`http://cmm-api:3000/sessions/logout?authtoken=${cookies.get('authtoken')}`).then(res => {
                 window.alert("Successfully Logged Out");
-                this.setState({authtoken: null, currentUserName: ''})
+                this.setState({currentUserName: ''});
+                cookies.delete('authtoken')
             }).catch(err => {
                 console.log(err)
             })
@@ -95,16 +92,17 @@ export class App extends Component {
             <div className="App" id={"app"}>
                 <LogIn classes={this.props.classes} logInEmail={this.state.logInEmail}
                        logInPassword={this.state.logInPassword} signUpUserName={this.state.signUpUserName}
-                       isSignUp={this.state.isSignUp}
-                       authtoken={this.state.authtoken} handleClick={this.handleClick}
-                       switchLogInSignUp={this.switchLogInSignUp} handleChange={this.handleChange}/>
+                       isSignUp={this.state.isSignUp} handleClick={this.handleClick}
+                       switchLogInSignUp={this.switchLogInSignUp} handleChange={this.handleChange} cookies={cookies}/>
                 <GetUsers users={this.state.users} getUsers={this.getUsers} handleClick={this.handleClick}
-                          authtoken={this.state.authtoken} currentUserName={this.state.currentUserName}/>
+                          currentUserName={this.state.currentUserName} cookies={cookies}/>
             </div>
         );
     }
 
 }
+
+export const cookies = new Cookies();
 
 const styles = {
     logoDiv: {
