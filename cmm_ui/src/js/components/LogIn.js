@@ -3,12 +3,10 @@ import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 
 const LogIn = (props) => {
-    // TODO add error state when wrong pass is entered
     if (props.cookies.get('authtoken') !== null && props.cookies.get('authtoken') !== undefined) {
         return (<></>)
     }
     else {
-        // TODO already a user message should go away if loggin in. change button name accordingly
         return (
             <div className={props.classes.logIn}>
                 <Paper className={props.classes.paper}>
