@@ -9349,6 +9349,11 @@ rsvp@^4.8.4:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
   integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
 
+ruby-script@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/ruby-script/-/ruby-script-1.0.8.tgz#c14425800ce7d007aa110cea2eee30a8f6bd8bac"
+  integrity sha512-mwX0XQVvsGF1/8OqPgz+NVpU9jd6IETlvOskpFM5Wln0FFCi9t06kYnosKsTZJtI6fpmXtgCcZrxzHLQxwYYwA==
+
 run-async@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
