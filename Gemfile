@@ -7,7 +7,6 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 gem 'rails', '~> 5.2.3'
 # Use sqlite3 as the database for Active Record
 # Apparently there is some issue with sqlite and ruby 2.5
-gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -26,6 +25,9 @@ gem 'puma', '~> 3.11'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+group :production do
+  gem 'pg'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,6 +38,7 @@ group :development, :test do
   # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
   gem 'rack-cors'
   gem 'rails-controller-testing'
+  gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
 end
 
 group :test do
