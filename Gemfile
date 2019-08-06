@@ -24,6 +24,7 @@ gem 'puma', '~> 3.11'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'rack-cors'
 
 group :production do
   gem 'pg'
@@ -36,7 +37,6 @@ group :development, :test do
   gem 'devise'
   gem 'simple_token_authentication'
   # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-  gem 'rack-cors'
   gem 'rails-controller-testing'
   gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
 end
