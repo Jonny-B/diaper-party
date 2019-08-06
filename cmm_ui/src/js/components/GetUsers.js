@@ -1,36 +1,71 @@
-import {Typography, Link} from "@material-ui/core";
-import logo from "../../images/logo.svg";
+import {Typography, Button, Grid} from "@material-ui/core";
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 
 const GetUsers = (props) => {
-    if (props.cookies.get('authtoken') === null || props.cookies.get('authtoken') === undefined) {
-        return <></>
-    }
-    else {
-        return (
-            <div className="GetUsers" id={"getUsers"}>
-                <header className="App-header" id={"appHeader"}>
-                    <Typography className={props.classes.greeting}>{`Hello ${props.currentUserName}`}</Typography>
-                    {props.users.map((user, i) => {
-                        return <Typography key={`user${i}`}>{user}</Typography>
-                    })}
-                    <div className={props.classes.logoDiv} id={"logoDiv"} onClick={props.getUsers}>
-                        <img src={logo} id={"logoImage"} className="App-logo" alt="logo"/>
-                    </div>
-                    <Link onClick={props.handleClick}>Log Out</Link>
-                </header>
-            </div>
-        )
-    }
+    return (
+        <div className="body" id={"getUsers"}>
+            <header className="App-header" id={"appHeader"}>
+                <Grid container justify={"center"} alignItems={"center"}>
+                    <Grid item xs={12}>
+                        <Typography className={props.classes.greeting}>Jon's Diaper Party</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography className={props.classes.greeting}>To help us know how much food to buy</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography className={props.classes.greeting}>Select how many of each you want (up to three)</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button onClick={() => {
+                            props.handleClick('hotdog','subtract/hotdog')
+                        }} className={props.classes.button} id={'subtract/hotdog'}>-</Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography>Hot Dog</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button onClick={() => {
+                            props.handleClick('hotdog', 'add/hotdog')
+                        }} className={props.classes.button} id={'add/hotdog'}>+</Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography>{props.hotdog}</Typography>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <Button onClick={() => {
+                            props.handleClick('burger','subtract/burger')
+                        }} className={props.classes.button} id={'subtract/burger'}>-</Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography>Not Hotdog (aka Burger)</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button onClick={() => {
+                            props.handleClick('burger', 'add/burger')
+                        }} className={props.classes.button} id={'add/burger'}>+</Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography>{props.burger}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography className={props.classes.greeting}>Also hidden somewhere on this site is an easter egg. If someone finds it they get a $5 gift card!</Typography>
+                    </Grid>
+                </Grid>
+            </header>
+        </div>
+    )
 };
 
 const styles = {
-    logoDiv: {
-        margin: '15px'
+    body: {
+        backgroundColor: '#282c34'
     },
-    greeting: {
-        margin: '15px'
+    button: {
+        backgroundColor: 'lightblue',
+        marginLeft: '15px',
+        marginRight: '15px'
     }
 };
 
