@@ -50,6 +50,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
+    bcrypt (3.1.12)
     bcrypt (3.1.12-x64-mingw32)
     bcrypt (3.1.12-x86-mingw32)
     bootsnap (1.3.2)
@@ -88,17 +89,22 @@ GEM
     method_source (0.9.0)
     mimemagic (0.3.2)
     mini_mime (1.0.1)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
+    msgpack (1.2.4)
     msgpack (1.2.4-x64-mingw32)
     msgpack (1.2.4-x86-mingw32)
     nio4r (2.3.1)
-    nokogiri (1.8.4-x64-mingw32)
-      mini_portile2 (~> 2.3.0)
-    nokogiri (1.8.4-x86-mingw32)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.8)
+      mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.8-x64-mingw32)
+      mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.8-x86-mingw32)
+      mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    pg (1.1.3)
     pg (1.1.3-x64-mingw32)
+    pg (1.1.3-x86-mingw32)
     puma (3.12.0)
     rack (2.0.5)
     rack-cors (1.0.3)
@@ -179,6 +185,7 @@ GEM
     websocket-extensions (0.1.3)
 
 PLATFORMS
+  ruby
   x64-mingw32
   x86-mingw32
 
